@@ -9,7 +9,7 @@ da Universidade Estadual da Paraíba.
 
 ### 🎯 Requisitos
 
-- `Nodejs 18.17.0`: Runtime JavaScript.
+- `Nodejs 22.11.0`: Runtime JavaScript.
 - `NPM`: Gerenciador de pacotes Javascript.
 
 ### ⚙️ Setup da aplicação:
