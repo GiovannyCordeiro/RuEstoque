@@ -20,14 +20,14 @@ da Universidade Estadual da Paraíba.
 
 ## 💻 Back-end
 
-### 🎯 Requisitos 
+### 🎯 Requisitos
 
 - `penv`: Gerenciador de versões Python
-- `Python 3.12.3`: Linguagem de programação
+- `Python 3.11`: Linguagem de programação
 - `Pipx`: Gerenciador de depêndencias globais
 - `Poetry`: Gerenciador de projetos e ambientes virtuais
 
-### ⚙️ Setup do ambiente virtual 
+### ⚙️ Setup do ambiente virtual
 
 Instalar gerenciador de versões Python:
 
@@ -43,3 +43,11 @@ Configurando Poetry:
 ### ⚙️ Setup da aplicação
 
 *A definir tecnologias.*
+
+---
+
+*"Nunca na minha vida invejei um ser humano que levasse uma vida facil.*
+
+*Invejei muitas pessoas que levaram vidas dificeis e as levaram bem."*
+
+*Theodore Roosevelt ("American Ideals In education", 1910)*
