@@ -1,8 +1,37 @@
 import { app, shell, BrowserWindow, ipcMain } from 'electron'
-import { join } from 'path'
+import path, { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
+import { ChildProcess, spawn } from 'child_process'
 import icon from '../../resources/icon.png?asset'
 
+/* Anotacoes a respeito da funcao createBackendProcess
+A funcao BackendProcess serve para iniciar o processo do BACKEND
+mas com definicoes de producao, tem que testar ela para quando geral o build
+automaticamente subir as configs e migracoes do banco. No entanto em desenvolvimento
+ela funciona normalmente por conta das condicionais que so executa a funcao quando
+roda o NPM RUN BUILD
+*/
+
+// Create backend process for deploy
+let backendProcess: ChildProcess | null = null
+
+function createBackendProcess(): void {
+  // Initialize back-end
+  const backendPath = path.join(__dirname, '../../..', 'backend')
+  backendProcess = spawn(
+    'poetry',
+    ['run', 'uvicorn', '--host', '127.0.0.1', '--port', '8000', 'back_end.app:app'],
+    {
+      cwd: backendPath,
+      shell: true
+    }
+  )
+
+  backendProcess.stdout?.on('data', (data) => console.log(`Backend: ${data}`))
+  backendProcess.stderr?.on('data', (data) => console.error(`Backend Error: ${data}`))
+}
+
+// Create Window method for electron
 function createWindow(): void {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
@@ -39,6 +68,12 @@ function createWindow(): void {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
+  const isProduction = process.env.NODE_ENV === 'production'
+
+  if (isProduction) {
+    createBackendProcess()
+  }
+
   // Set app user model id for windows
   electronApp.setAppUserModelId('com.electron')
 
@@ -65,6 +100,11 @@ app.whenReady().then(() => {
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
 app.on('window-all-closed', () => {
+  const isProduction = process.env.NODE_ENV === 'production'
+  if (isProduction) {
+    backendProcess?.kill()
+    backendProcess = null
+  }
   if (process.platform !== 'darwin') {
     app.quit()
   }

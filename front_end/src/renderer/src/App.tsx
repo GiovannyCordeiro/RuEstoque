@@ -1,7 +1,6 @@
 import Versions from './components/Versions'
 
 function App(): JSX.Element {
-
   return (
     <>
       <h2 className="text-3xl">Hello world</h2>
